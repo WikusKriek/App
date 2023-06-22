@@ -33,13 +33,13 @@ Onyx.connect({
         }
         requiresTwoFactorAuth = val.requiresTwoFactorAuth;
 
-        // if (Navigation.getActiveRoute().includes('two-factor-auth')) {
-        //     if (requiresTwoFactorAuth) {
-        //         Navigation.navigate(ROUTES.SETTINGS_2FA_SUCCESS);
-        //     } else {
-        //         Navigation.navigate(ROUTES.SETTINGS_2FA_DISABLE);
-        //     }
-        // }
+        if (Navigation.getActiveRoute().includes('two-factor-auth')) {
+            if (requiresTwoFactorAuth) {
+                Navigation.navigate(ROUTES.SETTINGS_2FA_SUCCESS);
+            } else {
+                Navigation.navigate(ROUTES.SETTINGS_2FA_DISABLE);
+            }
+        }
     }
 });
 
