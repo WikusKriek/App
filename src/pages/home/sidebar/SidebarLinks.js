@@ -40,6 +40,7 @@ import * as Session from '../../../libs/actions/Session';
 import Button from '../../../components/Button';
 import * as UserUtils from '../../../libs/UserUtils';
 import KeyboardShortcut from '../../../libs/KeyboardShortcut';
+import * as TwoFactorAuthActions from '../../../libs/actions/TwoFactorAuthActions';
 
 const propTypes = {
     /** Toggles the navigation menu open and closed */
@@ -126,6 +127,7 @@ class SidebarLinks extends React.Component {
         this.isSidebarLoaded = true;
 
         const shortcutConfig = CONST.KEYBOARD_SHORTCUTS.ESCAPE;
+        TwoFactorAuthActions.handleTwoFactorRedirect();
         this.unsubscribeEscapeKey = KeyboardShortcut.subscribe(
             shortcutConfig.shortcutKey,
             () => {

@@ -56,9 +56,9 @@ const defaultProps = {
 
 function VerifyPage(props) {
     useEffect(() => {
+        // TwoFactorAuthActions.handleTwoFactorRedirect();
         Session.clearAccountMessages();
     }, []);
-
     useEffect(() => {
         if (!props.account.requiresTwoFactorAuth) {
             return;
@@ -99,7 +99,7 @@ function VerifyPage(props) {
                     step: 2,
                     text: props.translate('twoFactorAuth.stepVerify'),
                 }}
-                onBackButtonPress={() => Navigation.goBack(ROUTES.SETTINGS_2FA_CODES)}
+                onBackButtonPress={() => Navigation.navigate(ROUTES.SETTINGS_2FA_CODES)}
             />
             <FullPageOfflineBlockingView>
                 <ScrollView

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import HeaderWithBackButton from '../../../../components/HeaderWithBackButton';
 import Navigation from '../../../../libs/Navigation/Navigation';
 import ScreenWrapper from '../../../../components/ScreenWrapper';
@@ -20,7 +20,7 @@ function SuccessPage(props) {
                     step: 3,
                     text: props.translate('twoFactorAuth.stepSuccess'),
                 }}
-                onBackButtonPress={() => Navigation.goBack(ROUTES.SETTINGS_SECURITY)}
+                onBackButtonPress={() => Navigation.navigate(ROUTES.SETTINGS_SECURITY)}
             />
             <FullPageOfflineBlockingView>
                 <ConfirmationPage

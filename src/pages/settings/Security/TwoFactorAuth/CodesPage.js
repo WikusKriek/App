@@ -8,6 +8,7 @@ import HeaderWithBackButton from '../../../../components/HeaderWithBackButton';
 import Navigation from '../../../../libs/Navigation/Navigation';
 import ScreenWrapper from '../../../../components/ScreenWrapper';
 import * as Expensicons from '../../../../components/Icon/Expensicons';
+import * as Session from '../../../../libs/actions/Session';
 import withLocalize, {withLocalizePropTypes} from '../../../../components/withLocalize';
 import compose from '../../../../libs/compose';
 import ROUTES from '../../../../ROUTES';
@@ -51,6 +52,7 @@ function CodesPage(props) {
     // Here, this eslint rule will make the unmount effect unreadable, possibly confusing with mount
     // eslint-disable-next-line arrow-body-style
     useEffect(() => {
+        Session.toggleTwoFactorAuth(true);
         return () => {
             TwoFactorAuthActions.clearTwoFactorAuthData();
         };
@@ -65,7 +67,7 @@ function CodesPage(props) {
                     step: 1,
                     text: props.translate('twoFactorAuth.stepCodes'),
                 }}
-                onBackButtonPress={() => Navigation.goBack(ROUTES.SETTINGS_SECURITY)}
+                onBackButtonPress={() => Navigation.navigate(ROUTES.SETTINGS_SECURITY)}
             />
             <FullPageOfflineBlockingView>
                 <ScrollView>

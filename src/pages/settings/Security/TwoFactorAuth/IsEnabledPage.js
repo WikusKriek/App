@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Text, View} from 'react-native';
 import HeaderWithBackButton from '../../../../components/HeaderWithBackButton';
 import Navigation from '../../../../libs/Navigation/Navigation';
@@ -8,6 +8,7 @@ import ROUTES from '../../../../ROUTES';
 import Section from '../../../../components/Section';
 import * as Illustrations from '../../../../components/Icon/Illustrations';
 import * as Expensicons from '../../../../components/Icon/Expensicons';
+import * as Session from '../../../../libs/actions/Session';
 import themeColors from '../../../../styles/themes/default';
 import styles from '../../../../styles/styles';
 import ConfirmModal from '../../../../components/ConfirmModal';
@@ -21,7 +22,7 @@ function IsEnabledPage(props) {
         <ScreenWrapper>
             <HeaderWithBackButton
                 title={props.translate('twoFactorAuth.headerTitle')}
-                onBackButtonPress={() => Navigation.goBack(ROUTES.SETTINGS_SECURITY)}
+                onBackButtonPress={() => Navigation.navigate(ROUTES.SETTINGS_SECURITY)}
             />
             <Section
                 title={props.translate('twoFactorAuth.twoFactorAuthEnabled')}
@@ -48,6 +49,7 @@ function IsEnabledPage(props) {
                 onConfirm={() => {
                     setIsConfirmModalVisible(false);
                     Navigation.navigate(ROUTES.SETTINGS_2FA_DISABLE);
+                    Session.toggleTwoFactorAuth(false);
                 }}
                 onCancel={() => setIsConfirmModalVisible(false)}
                 onModalHide={() => setIsConfirmModalVisible(false)}

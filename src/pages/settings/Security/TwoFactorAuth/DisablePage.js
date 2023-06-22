@@ -10,7 +10,6 @@ import styles from '../../../../styles/styles';
 import BlockingView from '../../../../components/BlockingViews/BlockingView';
 import FixedFooter from '../../../../components/FixedFooter';
 import Button from '../../../../components/Button';
-import * as Session from '../../../../libs/actions/Session';
 import variables from '../../../../styles/variables';
 
 const propTypes = {
@@ -20,15 +19,12 @@ const propTypes = {
 const defaultProps = {};
 
 function DisablePage(props) {
-    useEffect(() => {
-        Session.toggleTwoFactorAuth(false);
-    }, []);
 
     return (
         <ScreenWrapper shouldShowOfflineIndicator={false}>
             <HeaderWithBackButton
                 title={props.translate('twoFactorAuth.disableTwoFactorAuth')}
-                onBackButtonPress={() => Navigation.goBack(ROUTES.SETTINGS_SECURITY)}
+                onBackButtonPress={() => Navigation.navigate(ROUTES.SETTINGS_SECURITY)}
             />
 
             <FullPageOfflineBlockingView>
