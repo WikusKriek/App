@@ -230,7 +230,7 @@ function ReportActionsView(props) {
         }
         // If the report is unread and the user is viewing the report we want to update the new marker position
         setNewMarkerReportActionID(ReportUtils.isUnread(props.report) ? ReportUtils.getNewMarkerReportActionID(props.report, props.reportActions) : '');
-    }, [props.report, props.reportActions, isReportFullyVisible]);
+    }, [props.report, props.reportActions, isReportFullyVisible, setNewMarkerReportActionID]);
 
     useEffect(() => {
         const prevReportActions = prevReportActionsRef.current;
