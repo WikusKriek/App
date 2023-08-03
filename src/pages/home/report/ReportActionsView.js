@@ -225,6 +225,14 @@ function ReportActionsView(props) {
     }, [props.isSmallScreenWidth, props.report, props.reportActions, isReportFullyVisible]);
 
     useEffect(() => {
+        if (!isReportFullyVisible) {
+            return;
+        }
+        // If the report is unread and the user is viewing the report we want to update the new marker position
+        setNewMarkerReportActionID(ReportUtils.isUnread(props.report) ? ReportUtils.getNewMarkerReportActionID(props.report, props.reportActions) : '');
+    }, [props.report, props.reportActions, isReportFullyVisible, setNewMarkerReportActionID]);
+
+    useEffect(() => {
         const prevReportActions = prevReportActionsRef.current;
         // If the report is unread, we want to check if the number of actions has decreased. If so, then it seems that one of them was deleted. In this case, if the deleted action was the
         // one marking the unread point, we need to recalculate which action should be the unread marker.
