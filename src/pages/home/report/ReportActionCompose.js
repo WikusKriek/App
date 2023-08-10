@@ -301,12 +301,7 @@ class ReportActionCompose extends React.Component {
     onSelectionChange(e) {
         LayoutAnimation.configureNext(LayoutAnimation.create(50, LayoutAnimation.Types.easeInEaseOut, LayoutAnimation.Properties.opacity));
         this.setState({selection: e.nativeEvent.selection});
-        if (!this.state.value || e.nativeEvent.selection.end < 1) {
-            this.resetSuggestions();
-            this.shouldBlockEmojiCalc = false;
-            this.shouldBlockMentionCalc = false;
-            return;
-        }
+        console.log('onSelectionChange', e.nativeEvent.selection, !this.state.value, this.state.value, e.target.value);
         this.calculateEmojiSuggestion();
         this.calculateMentionSuggestion();
     }
@@ -531,7 +526,7 @@ class ReportActionCompose extends React.Component {
      * Calculates and cares about the content of an Emoji Suggester
      */
     calculateEmojiSuggestion() {
-        if (this.shouldBlockEmojiCalc) {
+        if (this.shouldBlockEmojiCalc || !this.state.value) {
             this.shouldBlockEmojiCalc = false;
             return;
         }
@@ -562,8 +557,9 @@ class ReportActionCompose extends React.Component {
     }
 
     calculateMentionSuggestion() {
-        if (this.shouldBlockMentionCalc) {
+        if (this.shouldBlockMentionCalc || this.state.selection.end < 1) {
             this.shouldBlockMentionCalc = false;
+            this.resetSuggestions();
             return;
         }
 
@@ -1233,7 +1229,6 @@ class ReportActionCompose extends React.Component {
                                         style={({pressed, isDisabled}) => [
                                             styles.chatItemSubmitButton,
                                             this.state.isCommentEmpty || hasExceededMaxCommentLength || pressed || isDisabled ? undefined : styles.buttonSuccess,
-                                            (this.state.isCommentEmpty || isBlockedFromConcierge || this.props.disabled || hasExceededMaxCommentLength) && styles.cursorDisabled,
                                         ]}
                                         accessibilityRole={CONST.ACCESSIBILITY_ROLE.BUTTON}
                                         accessibilityLabel={this.props.translate('common.send')}
