@@ -1,6 +1,6 @@
-import React, {useCallback, useEffect, useMemo, forwardRef} from 'react';
+import React, {useCallback, useEffect, useMemo, forwardRef, useState} from 'react';
 // eslint-disable-next-line no-restricted-imports
-import {Pressable} from 'react-native';
+import {Pressable, InteractionManager} from 'react-native';
 import _ from 'underscore';
 import Accessibility from '../../../libs/Accessibility';
 import HapticFeedback from '../../../libs/HapticFeedback';
@@ -43,11 +43,12 @@ const GenericPressable = forwardRef((props, ref) => {
         keyboardShortcut,
         shouldUseAutoHitSlop,
         enableInScreenReaderStates,
-        isExecuting,
         onPressIn,
         onPressOut,
         ...rest
     } = props;
+
+    const [isExecuting, setIsExecuting] = useState(false);
 
     const isScreenReaderActive = Accessibility.useScreenReaderStatus();
     const [hitSlop, onLayout] = Accessibility.useAutoHitSlop();
@@ -62,8 +63,8 @@ const GenericPressable = forwardRef((props, ref) => {
             shouldBeDisabledByScreenReader = isScreenReaderActive;
         }
 
-        return props.disabled || shouldBeDisabledByScreenReader;
-    }, [isScreenReaderActive, enableInScreenReaderStates, props.disabled]);
+        return props.disabled || shouldBeDisabledByScreenReader || isExecuting;
+    }, [isScreenReaderActive, enableInScreenReaderStates, props.disabled, isExecuting]);
 
     const shouldUseDisabledCursor = useMemo(() => isDisabled && !isExecuting, [isDisabled, isExecuting]);
 
@@ -132,7 +133,22 @@ const GenericPressable = forwardRef((props, ref) => {
             hitSlop={shouldUseAutoHitSlop ? hitSlop : undefined}
             onLayout={shouldUseAutoHitSlop ? onLayout : undefined}
             ref={ref}
-            onPress={!isDisabled ? onPressHandler : undefined}
+            onPress={() => {
+                if (isDisabled){
+                    return;
+                }
+                setIsExecuting(true);
+                const onPress1 = onPressHandler();
+                InteractionManager.runAfterInteractions(() => {
+                    if (!(onPress1 instanceof Promise)) {
+                        setIsExecuting(false);
+                        return;
+                    }
+                    onPress.finally(() => {
+                        setIsExecuting(false);
+                    });
+                });
+            }}
             onLongPress={!isDisabled && onLongPress ? onLongPressHandler : undefined}
             onKeyPress={!isDisabled ? onKeyPressHandler : undefined}
             onKeyDown={!isDisabled ? onKeyDown : undefined}
