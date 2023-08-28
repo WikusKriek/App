@@ -1,4 +1,4 @@
-import React, {useState, useCallback, useRef, useImperativeHandle, useEffect} from 'react';
+import React, {useState, useCallback, useRef, useImperativeHandle} from 'react';
 import PropTypes from 'prop-types';
 import _ from 'underscore';
 import {withOnyx} from 'react-native-onyx';
@@ -45,7 +45,6 @@ const defaultProps = {
 function SuggestionMention({
     value,
     setValue,
-    selection,
     setSelection,
     isComposerFullSize,
     personalDetails,
@@ -232,9 +231,12 @@ function SuggestionMention({
         [getMentionOptions, personalDetails, resetSuggestions, setHighlightedMentionIndex, value],
     );
 
-    useEffect(() => {
-        calculateMentionSuggestion(selection.end);
-    }, [selection, calculateMentionSuggestion]);
+    const onSelectionChange = useCallback(
+        (e) => {
+            calculateMentionSuggestion(e.nativeEvent.selection.end);
+        },
+        [calculateMentionSuggestion],
+    );
 
     const updateShouldShowSuggestionMenuToFalse = useCallback(() => {
         setSuggestionValues((prevState) => {
@@ -260,11 +262,12 @@ function SuggestionMention({
         forwardedRef,
         () => ({
             resetSuggestions,
+            onSelectionChange,
             triggerHotkeyActions,
             setShouldBlockSuggestionCalc,
             updateShouldShowSuggestionMenuToFalse,
         }),
-        [resetSuggestions, setShouldBlockSuggestionCalc, triggerHotkeyActions, updateShouldShowSuggestionMenuToFalse],
+        [onSelectionChange, resetSuggestions, setShouldBlockSuggestionCalc, triggerHotkeyActions, updateShouldShowSuggestionMenuToFalse],
     );
 
     if (!isMentionSuggestionsMenuVisible) {
