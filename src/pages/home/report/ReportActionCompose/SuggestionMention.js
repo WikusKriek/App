@@ -180,7 +180,7 @@ function SuggestionMention({
 
     const calculateMentionSuggestion = useCallback(
         (selectionEnd) => {
-            if (shouldBlockCalc.current || selectionEnd < 1) {
+            if (shouldBlockCalc.current) {
                 shouldBlockCalc.current = false;
                 resetSuggestions();
                 return;
