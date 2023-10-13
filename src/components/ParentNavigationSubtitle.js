@@ -34,6 +34,7 @@ function ParentNavigationSubtitle(props) {
             style={[styles.optionAlternateText]}
             numberOfLines={1}
             textBreakStrategy="highQuality"
+            accessibilityLabel={translate('threads.parentNavigationSummary', {rootReportName, workspaceName})}
         >
             <Text style={[styles.optionAlternateText, styles.textLabelSupporting]}>{`${translate('threads.from')} `}</Text>
             <TextLink
