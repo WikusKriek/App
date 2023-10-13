@@ -196,7 +196,6 @@ function HeaderView(props) {
                                     <ParentNavigationSubtitle
                                         parentNavigationSubtitleData={parentNavigationSubtitleData}
                                         parentReportID={props.report.parentReportID}
-                                        pressableStyles={[styles.alignSelfStart, styles.mw100]}
                                     />
                                 )}
                                 {!_.isEmpty(subtitle) && (

@@ -42,16 +42,9 @@ function ParentNavigationSubtitle(props) {
                 }}
                 style={[styles.optionAlternateText, styles.textLabelSupporting, styles.link]}
             >
-                {rootReportName}
+                <Text style={[styles.optionAlternateText, styles.textLabelSupporting, styles.link]}>{rootReportName}</Text>
+                {Boolean(workspaceName) && <Text style={[styles.optionAlternateText, styles.textLabelSupporting]}>{` ${translate('threads.in')} ${workspaceName}`}</Text>}
             </TextLink>
-            {Boolean(workspaceName) && (
-                <TextLink
-                    onPress={() => {
-                        Navigation.navigate(ROUTES.REPORT_WITH_ID.getRoute(props.parentReportID));
-                    }}
-                    style={[styles.optionAlternateText, styles.textLabelSupporting]}
-                >{` ${translate('threads.in')} ${workspaceName}`}</TextLink>
-            )}
         </Text>
     );
 }
