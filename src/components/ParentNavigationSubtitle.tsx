@@ -52,7 +52,7 @@ function ParentNavigationSubtitle({parentNavigationSubtitleData, parentReportAct
             style={pressableStyles}
         >
             <Text
-                style={[styles.optionAlternateText]}
+                style={[styles.optionAlternateText, styles.flex1]}
                 numberOfLines={1}
             >
                 {!!reportName && (

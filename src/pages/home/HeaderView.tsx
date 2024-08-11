@@ -212,7 +212,7 @@ function HeaderView({report, personalDetails, parentReport, parentReportAction, 
                                                 parentNavigationSubtitleData={parentNavigationSubtitleData}
                                                 parentReportID={report.parentReportID}
                                                 parentReportActionID={report.parentReportActionID}
-                                                pressableStyles={[styles.alignSelfStart, styles.mw100]}
+                                                pressableStyles={[styles.alignSelfStart, styles.flexRow, styles.mw100]}
                                             />
                                         )}
                                         {shouldShowSubtitle() && (
