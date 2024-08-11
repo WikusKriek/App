@@ -10,6 +10,7 @@ import type {ParentNavigationSummaryParams} from '@src/languages/types';
 import ROUTES from '@src/ROUTES';
 import PressableWithoutFeedback from './Pressable/PressableWithoutFeedback';
 import Text from './Text';
+import TextLink from './TextLink';
 
 type ParentNavigationSubtitleProps = {
     parentNavigationSubtitleData: ParentNavigationSummaryParams;
@@ -36,7 +37,43 @@ function ParentNavigationSubtitle({parentNavigationSubtitleData, parentReportAct
     }
 
     return (
-        <PressableWithoutFeedback
+        <Text
+            style={[styles.optionAlternateText]}
+            accessibilityLabel={translate('threads.parentNavigationSummary', {reportName, workspaceName})}
+            role={CONST.ROLE.LINK}
+            numberOfLines={1}
+            textBreakStrategy="highQuality"
+        >
+            {!!reportName && (
+                <>
+                    <Text style={[styles.optionAlternateText, styles.textLabelSupporting]}>{`${translate('threads.from')} `}</Text>
+                    <TextLink
+                        onPress={() => {
+                            const parentAction = ReportActionsUtils.getReportAction(parentReportID, parentReportActionID ?? '-1');
+                            const isVisibleAction = ReportActionsUtils.shouldReportActionBeVisible(parentAction, parentAction?.reportActionID ?? '-1');
+                            // Pop the thread report screen before navigating to the chat report.
+                            Navigation.goBack(ROUTES.REPORT_WITH_ID.getRoute(parentReportID));
+                            if (isVisibleAction && !isOffline) {
+                                // Pop the chat report screen before navigating to the linked report action.
+                                Navigation.goBack(ROUTES.REPORT_WITH_ID.getRoute(parentReportID, parentReportActionID));
+                            }
+                        }}
+                        style={[styles.optionAlternateText, styles.textLabelSupporting, styles.link]}
+                    >
+                        {reportName}
+                    </TextLink>
+                </>
+            )}
+            {!!workspaceName && <Text style={[styles.optionAlternateText, styles.textLabelSupporting]}>{` ${translate('threads.in')} ${workspaceName}`}</Text>}
+        </Text>
+    );
+}
+
+ParentNavigationSubtitle.displayName = 'ParentNavigationSubtitle';
+export default ParentNavigationSubtitle;
+
+{
+    /* <PressableWithoutFeedback
             onPress={() => {
                 const parentAction = ReportActionsUtils.getReportAction(parentReportID, parentReportActionID ?? '-1');
                 const isVisibleAction = ReportActionsUtils.shouldReportActionBeVisible(parentAction, parentAction?.reportActionID ?? '-1');
@@ -63,9 +100,5 @@ function ParentNavigationSubtitle({parentNavigationSubtitleData, parentReportAct
                 )}
                 {!!workspaceName && <Text style={[styles.optionAlternateText, styles.textLabelSupporting]}>{` ${translate('threads.in')} ${workspaceName}`}</Text>}
             </Text>
-        </PressableWithoutFeedback>
-    );
+        </PressableWithoutFeedback> */
 }
-
-ParentNavigationSubtitle.displayName = 'ParentNavigationSubtitle';
-export default ParentNavigationSubtitle;
