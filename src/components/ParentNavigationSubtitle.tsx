@@ -60,11 +60,10 @@ function ParentNavigationSubtitle({parentNavigationSubtitleData, parentReportAct
                         }}
                         style={[styles.optionAlternateText, styles.textLabelSupporting, styles.link]}
                     >
-                        {reportName}
+                        {reportName || (workspaceName ? `${translate('threads.in')} ${workspaceName}` : '')}
                     </TextLink>
                 </>
             )}
-            {!!workspaceName && <Text style={[styles.optionAlternateText, styles.textLabelSupporting]}>{` ${translate('threads.in')} ${workspaceName}`}</Text>}
         </Text>
     );
 }
